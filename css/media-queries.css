@@ -1,0 +1,415 @@
+@media screen and (max-width:1260px ) {
+    .buscador
+    {
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width:1210px ) {
+    .contenido-central
+    {
+        width: 84%;
+    }
+    .contenedor_central
+    {
+        width: 100%;
+        margin-left: 0;
+    }
+    .contenedor-lateral
+    {
+        width: 100%;
+        height: 200px;
+    }
+    .contenedor-lateral
+    {
+        width: 100%;
+        height: 200px;
+    }
+    .buscador-asignacion-boton
+    {
+        width: 100%;
+    }
+    #contenedor_mapa
+    {
+        width: 100% !important;
+    }
+    .monitoreo_buscador
+    {
+        margin-left: 0 !important;
+    }
+}
+
+@media screen and (max-width:1132px ) {
+    .contenido-central
+    {
+        width: 84%;
+    }
+    .pie-center
+    {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width:1164px ) {
+    .contenido-central
+    {
+        width: 82%;
+    }
+}
+
+@media screen and (max-width:1006px ) {
+    .contenido-central
+    {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width:905px ) {
+    .contenido-central
+    {
+        width: 79%;
+    }
+}
+@media screen and (max-width:862px ) {
+    .contenido-central
+    {
+        width: 78%;
+    }
+}
+@media screen and (max-width:823px ) {
+    .contenido-central
+    {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width:800px ) {
+    .contenido-central
+    {
+        width: 100%;
+    }
+    .fecha
+    {
+        display: none;
+    }
+    .logOut
+    {
+        display: none;
+    }
+    #salir
+    {
+        display: block;
+    }
+    .menu-telefono
+    {
+        display: inline;
+    }
+    #menu
+    {
+        background: whitesmoke;
+        position: absolute;
+        z-index: 2;
+        display: none;
+    }
+    .contenedor-info
+    {
+        width: 400px;
+    }
+    #btn_menu
+    {
+        display: none;
+    }
+    .contenedor-servicios
+    {
+        display: none;
+    }
+    #servicios_pendientes_link
+    {
+        display: block;
+        width: 100%;
+        padding: 0;
+    }
+    .servicios_pendientes{
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #botonCancelar
+    {
+        display: block;
+    }
+    
+    .indicador-dashboard
+    {
+        
+    }
+    .menu
+    {
+        width:50px;
+    }
+    .contenedor-dashboard
+    {
+        width: 100%;
+        padding-top: 20px;
+    }
+    .indicador-dashboard
+    {
+        margin: 0;
+        width: calc(100% - 0px);
+    }
+    
+    #contenedor_mapa
+    {
+        margin-left: 0 !important;
+    }
+    .buscador-asignacion
+    {
+        height: auto;
+        padding-bottom: 20px;
+    }
+    
+    .asignacion_buscador
+    {
+        float: left;
+    }
+    .buscador-pasajero
+    {
+        height: auto;
+        padding-bottom: 20px;
+    }
+    .contenedor_agregar
+    {
+        padding-left: 15px;
+        width: 100%;
+        margin-left: 0;
+        height: auto;
+        padding-bottom: 50px;
+    }
+    .input_asignar_agregar,.input_asignar_agregar_grande
+    {
+        width: 80%;
+    }
+    .contenedor_editar
+    {
+        padding-left: 15px;
+        width: 100%;
+        margin-left: 0;
+        height: auto;
+        padding-bottom: 20px;
+    }
+    .input_asignar_editar {
+        width:200px;
+    }
+    .contenedor_central
+    {
+        margin-top: 200px;
+    }
+    
+    .fila_contenedor_servicio div
+    {
+        font-size: 12px;
+    }
+    .mini_tab{
+        display: none;
+    }
+    
+    .titulo_pagina_general
+    {
+        width:100%;
+    }
+    .titulo_pagina
+    {
+        font-size: 15px;
+    }
+    .contenedor-formulario    
+    {
+        padding-left: 20px;
+        width:100%;
+    }
+    .contenedor-info
+    {
+        width:100%;
+        overflow: auto;
+    }
+    .contenedor-pre-input,.contenedor-pre-input-conductor
+    {
+        width: 120px;
+    }
+    .contenedor-pre-input-login
+    {
+        width: 85px;
+    }
+    .contenedor_central_titulo div
+    {
+        width:39%;   
+    }
+
+    .contenedor_central_titulo_pasajero div{
+        width: 25%;
+    }
+    .contenedor_central_titulo_conductor div{
+        width: 25%;
+    }
+    .contenedor_central_titulo_tarifa div{
+        width: 32%;
+    }
+    .fila_contenedor_tarifa_detalle div{
+        width: 32%;
+    }
+    .fila_contenedor_pasajero div{
+        width: 25%;
+    }
+    .ccc div{
+        width: 25%;
+    }
+    .fila_contenedor_servicio div
+    {
+        width: 33%;
+    }
+    .fila_contenedor_conductor div
+    {
+        width: 25%;
+    }
+    .cont_servicio div{
+        width: 25%;
+    }
+    .fila_empresa{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .pie-center,.pie-left
+    {
+        width: 30%;
+    }
+    .contenedor_central
+    {
+        height: calc(100% - 160px);
+    }
+    .movil_tabla div
+    {
+        width: 25%;
+    }
+    .movil_tabla_valor div
+    {
+         width: 20%;
+    }
+    
+    .titulo_pagina_pasajero
+    {
+        font-size: 12px;
+    }
+    .fila_oculta
+    {
+        display: none;
+    }
+    .contenedor_central_servicio,.contenedor_central_reporte
+    {
+        width: calc(99% - 1px);
+        margin-left: 0;
+    }
+    .fila_fecha
+    {
+        width: 41% !important;
+    }
+    .sub-cont-conf
+    {
+        width: 100%;
+    }
+    .col_dato_rendicion
+    {
+        width:33% !important;
+    }
+    .col_empresa_pasajero
+    {
+        display: none;
+    }
+    .contenedor_produccion_liquidacion
+    {
+        width:100%;
+        height: calc(100% - 230px);
+    }
+    .contenedor_sub_liquidacion
+    {
+        width: 100%;
+    }
+    
+    .lista_busqueda_liq
+    {
+        height:calc(100% - 80px);
+    }
+    .contenedor-lateral-liq
+    {
+        height:calc(100% - 220px) !important;
+    }
+    .contendor-titulo-liq
+    {
+        float: left;
+        width: 100%;
+        margin-left: 0;
+    }
+    .contenedor_contrato
+    {
+        width: 100%;
+        margin-left: 0;
+    }
+    .contenedor-info-agente
+    {
+        height:calc(100% - 105px);
+    }
+    
+    .contenedor_agente
+    {
+        height: calc(100% - 114px);
+        overflow: auto;
+    }
+    
+    select{
+        width: 130px;
+        background-position: 100px, 0;
+    }
+    .contenedor-formulario_mapa
+    {
+        margin-left: 20px;
+        width: 300px;
+        display: inline-block;
+        float: left;
+    }
+    #contenedor_mapa{
+        margin-top: 37px !important;
+    }
+    .map{
+        height: 300px;
+        width: 300px;
+    }
+    .input_cliente{
+        width: 62% !important;
+    }
+    .nombre_pasajero
+    {
+        display: none;
+    }
+    
+    /*REALES*/
+    .contenedor-indicador{
+        width: 100%;
+    }
+    .buscador_ventas{
+        width: 97%;
+        height: auto;
+    }
+    .contenido-central{
+        height: calc(60% - 10px);
+    }
+    .contenedor_busc{
+        height: calc(100% - 10px);
+        border-bottom: none;
+    }
+    .contenedor-tabla{
+        width: 100%;
+    }
+    
+    .res1,.res2,.img3,.img4{
+        position: static;
+    }
+}

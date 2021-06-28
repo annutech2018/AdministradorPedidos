@@ -1,0 +1,13 @@
+{
+    "name": "vendor/administrador-pedidos",
+    "description": "Description of project AdministradorPedidos.",
+    "authors": [
+        {
+            "name": "Jose",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "picqer/php-barcode-generator" : "^2.0"
+    }
+}
