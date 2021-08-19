@@ -4,9 +4,10 @@
     header("Content-type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=productos.xls");
     
-    $codigo = filter_input(INPUT_POST, 'codigo');
-    $nombre = filter_input(INPUT_POST, 'nombre');
-    $descripcion = filter_input(INPUT_POST, 'descripcion'); 
+    $codigo = filter_input(INPUT_GET, 'codigo');
+    $nombre = filter_input(INPUT_GET, 'nombre');
+    $descripcion = filter_input(INPUT_GET, 'descripcion'); 
+    $nivel = filter_input(INPUT_GET, 'nivel');
     $linea = 0;
     $conn = new Conexion();
     try {
@@ -22,7 +23,7 @@
         if($descripcion != ""){
             $qryDesc = " AND producto_descripcion LIKE '%$descripcion%' ";
         }
-        $query = "SELECT * FROM tbl_producto WHERE 1=1 $qryCodigo $qryNombre $qryDesc LIMIT 100";
+        $query = "SELECT * FROM tbl_producto WHERE producto_nivel = $nivel $qryCodigo $qryNombre $qryDesc LIMIT 100";
         $conn->conectar();
         $result = mysqli_query($conn->conn,$query) or die (mysqli_error($conn->conn)); 
         $productos = mysqli_num_rows($result);
@@ -32,7 +33,7 @@
         while($row = mysqli_fetch_array($result)) {
             $cantidad = "0";
             $queryCant = "SELECT SUM(inventario_entrada) - SUM(inventario_salida) AS producto_cantidad "
-                    . "FROM tbl_inventario WHERE inventario_producto = '".$row['producto_id']."'";
+                    . "FROM tbl_inventario WHERE inventario_producto = '".$row['producto_id']."' AND inventario_tipo = $nivel";
             $resultCant = mysqli_query($conn->conn,$queryCant) or die (mysqli_error($conn->conn)); 
             while($rowCant = mysqli_fetch_array($resultCant)) {
                 if($rowCant["producto_cantidad"] != ""){

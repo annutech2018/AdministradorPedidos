@@ -70,8 +70,6 @@
                     <option value="0">ADMINISTRADOR</option>
                     <option value="1">VENDEDOR</option>
                     <option value="2">MONITOR</option>
-                    <option value="3">DESPACHO</option>
-                    <option value="4">MOTORISTA</option>
                 </select>
             </div>
         </div>

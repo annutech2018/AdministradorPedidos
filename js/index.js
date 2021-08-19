@@ -64,8 +64,7 @@ function login(){
         else if(parseInt(response.usuario_id) > 0)
         {
             if(response.usuario_tipo === 4){
-                cambiarPropiedad($("#loader"),"visibility","hidden");
-                alertify.error("Usuario sin permisos");
+                redireccionar("monitor.php");
             } else{
                 redireccionar("principal.php");
             }

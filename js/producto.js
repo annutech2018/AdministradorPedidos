@@ -1,8 +1,16 @@
 /* global alertify */
 
     var accion = 'agregar';
-
+    
+    var insumoAux;
+    var productoAux;
+    var insumos = new Map();
+    var insumos_agregados = new Map();
+    
     $(document).ready(()=>{
+        
+        getInsumos();
+        
         cargarProductos();
 
         $("#enlaceBuscar").click(()=>{
@@ -38,7 +46,7 @@
         });
         
         $("#enlaceExcel").click(function(){
-            var params = "codigo="+$('#buscaCodigo').val()+"&nombre="+$("#buscaNombre").val();
+            var params = "codigo="+$('#buscaCodigo').val()+"&nombre="+$("#buscaNombre").val()+"&nivel=1"
             exportar('source/httprequest/producto/GetProductosExcel',params);            
         });
         
@@ -62,7 +70,7 @@
         var url = "source/httprequest/producto/GetProductos.php";
         $("#tabla_prod tbody").html("");
         var params = {codigo : $("#buscaCodigo").val(), nombre : $("#buscaNombre").val(),
-            depto : $("#buscaDepto").val(),tipo : $("#buscaTipo").val()};
+            depto : $("#buscaDepto").val(),tipo : $("#buscaTipo").val(),nivel : "1"};
         var success = function(response)
         {
            if(response.length === 0){
@@ -80,23 +88,145 @@
                     contenido +=  "<tr>";
                 }
 
-                contenido += "<td>"+producto.producto_id+"</td>\n\
+                contenido += "<td>"+producto.producto_codigo+"</td>\n\
                               <td>"+producto.producto_nombre+"</td>\n\
-                              <td>"+producto.producto_descripcion+"</td>\n\
-                              <td>$ "+Math.round((parseFloat(producto.producto_coste) + parseFloat(producto.producto_coste_iva)))+"</td>\n\
-                              <td>$ "+Math.round((parseFloat(producto.producto_precio) + parseFloat(producto.producto_precio_iva)))+"</td>\n\
-                              <td>"+(producto.producto_tipo === '0' ? Math.round(producto.producto_cantidad) : producto.producto_cantidad)+"</td>\n\
-                              <td><a onclick=\"abrirModificar('"+producto.producto_id+"',true)\" href=\"javascript:void(0)\"><img src= \"img/editar.png\" width=\"20\" height=\"20\"></a></td>\n\
-                              <td><a onclick=\"eliminarProducto('"+producto.producto_id+"')\" href=\"javascript:void(0)\"><img src= \"img/eliminar.png\" width=\"20\" height=\"20\"></a></td>";           
+                              <td>"+producto.producto_descripcion+"</td>";
+                if(producto.producto_manufacturado){
+                    contenido += "<td>$ "+Math.round((parseFloat(producto.producto_coste_manu)))+"</td>";
+                } else {
+                    contenido += "<td>$ "+Math.round((parseFloat(producto.producto_coste) + parseFloat(producto.producto_coste_iva)))+"</td>";
+                }
+                            contenido += "<td>$ "+Math.round((parseFloat(producto.producto_precio) + parseFloat(producto.producto_precio_iva)))+"</td>";
+                            if(producto.producto_manufacturado === "1"){
+                                contenido += "<td>-</td>";
+                            } else{
+                              contenido += "<td>"+(producto.producto_tipo === '0' ? Math.round(producto.producto_cantidad) : producto.producto_cantidad)+"</td>";
+                }
+                              contenido += "<td><a onclick=\"abrirModificar('"+producto.producto_codigo+"',true)\" href=\"javascript:void(0)\"><img src= \"img/editar.png\" width=\"20\" height=\"20\"></a></td>\n\
+                              <td><a onclick=\"verComposicion('"+producto.producto_codigo+"')\" href=\"javascript:void(0)\"><img src= \"img/composicion.png\" width=\"20\" height=\"20\"></a></td>\n\
+                              <td><a onclick=\"eliminarProducto('"+producto.producto_codigo+"')\" href=\"javascript:void(0)\"><img src= \"img/eliminar.png\" width=\"20\" height=\"20\"></a></td>";           
             }
             $("#tabla_prod tbody").html(contenido);
         };
         postRequest(url,params,success);
     }
     
+    function verComposicion(codigo){
+        productoAux = codigo;
+        var url = "source/httprequest/insumo_producto/GetInsumosProductos.php";
+        var params = {codigo : codigo};
+        var success = function(response)
+        {
+            var costoTotal = 0 ;
+            $("#insumos tbody").html("");
+            insumos_agregados.clear();
+            for(var i = 0 ; i < response.length;i++){
+                var data = response[i];
+                var tipo = '';
+                if(data.tipo === 0){
+                    tipo = 'UD';
+                } else if(data.tipo === 1){
+                    tipo = 'KG';
+                } else if(data.tipo === 2){
+                    tipo = 'MT';
+                } else if(data.tipo === 3){
+                    tipo = 'LT';
+                }
+                
+                var precioReal = (data.costo + data.costoIva) * response[i].cantidad;
+                costoTotal += parseInt(precioReal);
+                
+                if(i % 2 === 0){ 
+                    $("#insumos tbody").append("<tr id='tr_"+data.codigo+"' style='background-color:white;text-align:center'>");
+                }
+                else{
+                    $("#insumos tbody").append("<tr id='tr_"+data.codigo+"'>");
+                }                
+                
+                $("#insumos tbody").append("<td>"+data.codigo+"</td><td>"+data.nombre+
+                        "</td><td>"+data.descripcion+"</td><td>"+Math.round(data.precio+data.precioIva)+"</td><td>"+
+                        response[i].cantidad+"</td><td>"+tipo+"</td><td>$ "+precioReal+"</td><td><img style='cursor:pointer' onclick='eliminarInsumoProducto("+data.codigo+");' src='img/eliminar.png'></td></tr>");
+                insumos_agregados.set(data.codigo,data.codigo);
+            }
+            $("#nombreInsumo").html("<option value=''>Seleccione</option>");
+            for (let [key, value] of insumos) {
+                $("#nombreInsumo").append("<option value='"+key+"'>"+value+"</option>");
+            }
+            
+            
+            
+            $("#costoFinal").val(costoTotal);
+            $("#composicion_producto").css('visibility','visible');
+            $("#composicion_producto").show();
+        };
+        postRequest(url,params,success);
+    }
+    
+    
+    function getCosto(codigo,obj){
+        var costoTotal = 0;
+        var url = "source/httprequest/insumo_producto/GetInsumosProductos.php";
+        var params = {codigo : codigo};
+        var success = function(response)
+        {
+            var data = response.insumo;
+            for(var i = 0 ; i < response.length;i++){
+                costoTotal += data.costo * response[i].cantidad;
+            }
+            obj.html(costoTotal);
+                
+        };
+        postRequest(url,params,success);
+    }
+    
+    function getInsumo(codigo){
+        var url = "source/httprequest/insumo_producto/GetInsumo.php";
+        var params = {codigo : codigo};
+        var success = function(response)
+        {
+            var costoTotal = 0 ;
+            
+            for(var i = 0 ; i < response.length;i++){
+                var data = response[i].insumo;
+                var tipo = '';
+                if(data.tipo === '0'){
+                    tipo = 'UD';
+                } else if(data.tipo === '1'){
+                    tipo = 'KG';
+                } else if(data.tipo === '2'){
+                    tipo = 'MT';
+                } else if(data.tipo === '3'){
+                    tipo = 'LT';
+                }
+                
+                var precioReal = data.costo * data.cantidad;
+                costoTotal += parseInt(precioReal);
+                $("#insumos tbody").append("<tr><td>"+data.codigo+"</td><td>"+data.nombre+
+                        "</td><td>"+data.descripcion+"</td><td>"+data.precio+"</td><td>"+
+                        data.cantidad+"</td><td>"+tipo+"</td><td>"+precioReal+"</td></tr>");
+            }
+            $("#composicion_producto").css('visibility','visible');
+            $("#composicion_producto").show();
+        };
+        postRequest(url,params,success);
+    }
+    
+    function getInsumos(){
+        var params = {};
+        var url = "source/httprequest/insumo_producto/GetInsumos.php";
+        var success = function(response)
+        {            
+            for(var i = 0 ; i < response.length;i++){
+                let insumo = response[i];
+                insumos.set(insumo.codigo,insumo.nombre);
+            }
+        };
+        postRequest(url,params,success);
+    }
+    
     function abrirModificar(codigo, mod = false){
         var url = "source/httprequest/producto/GetProducto.php";
-        var params = {codigo : codigo};
+        var params = {codigo : codigo,nivel:"1"};
         var success = function(response)
         {
             if(response.producto_nombre !== undefined){
@@ -106,7 +236,12 @@
                 $("#descripcion").val(response.producto_descripcion);
                 $("#costo").val(Math.round((parseFloat(response.producto_coste) + parseFloat(response.producto_coste_iva))));
                 $("#precio").val(Math.round((parseFloat(response.producto_precio) + parseFloat(response.producto_precio_iva))));
-                $("#depto").val(response.producto_dep_id);
+                $("#tipo").val(response.producto_tipo);
+                if(response.producto_inventario ==='1'){
+                    $("#inventario").prop('checked',true);
+                } else{
+                    $("#inventario").prop('checked',false);
+                }
                 $("#existencia").val(response.producto_cantidad);
                 $("#addStock").val("0");
                 $("#delStock").val("0");
@@ -122,7 +257,6 @@
                 }
                 reset();
             }
-            setTimeout('ocultar()',30000);
         };
         postRequest(url,params,success);
     }
@@ -131,19 +265,24 @@
         let codigo = $("#codigo").val();
         let nombre = $("#nombre").val();
         let descripcion = $("#descripcion").val();
-        let precioCosto = $("#costo").val();
+        let precioCosto = $("#costo").val()===''?'0':$("#costo").val();
         let precioVenta = $("#precio").val();
+        let tipo = $("#tipo").val();
         let imagen = $("#imagenOculta").val();
         let existencia = $("#existencia").val();        
         let addStock = $("#addStock").val();
         let delStock = $("#delStock").val();
-        if(codigo === '' || nombre === '' || descripcion === '' || precioCosto === '' || precioVenta === ''){
+        let inventario = $("#inventario").prop("checked")?1:0;
+        let manufacturado = $("#manufacturado").prop("checked")?1:0;
+        if(codigo === '' || nombre === '' || descripcion === '' || precioVenta === ''){
             alertify.error("Ingrese todos los campos necesarios");
             return;
         }
-        if(!validarNumero(precioCosto)){
-            alertify.error("Precio costo debe ser numérico");
-            return;
+        if(manufacturado === 0){
+            if(!validarNumero(precioCosto)){
+                alertify.error("Precio costo debe ser numérico");
+                return;
+            }
         }
         if(!validarNumero(precioVenta)){
             alertify.error("Precio venta debe ser numérico");
@@ -177,8 +316,9 @@
         }
         
         var params = {codigo : codigo, nombre : nombre,descripcion : descripcion, 
-            precioCosto : precioCosto, precioVenta : precioVenta, imagen: imagen,
-            existencia : existencia, addStock: addStock, delStock: delStock};
+            precioCosto : precioCosto, precioVenta : precioVenta,tipo : tipo, imagen: imagen,
+            existencia : existencia, addStock: addStock, delStock: delStock,nivel:"1",inventario:inventario,
+            manufacturado:manufacturado};
         if(accion === 'agregar'){
             agregarProducto(params);
         }
@@ -236,7 +376,7 @@
                     alertify.error(response.error);
                 }
             };
-            var params = {codigo : codigo};
+            var params = {codigo : codigo,nivel:"1"};
             postRequest(url,params,success); 
         },()=>{
             
@@ -244,14 +384,14 @@
     }
     
     function cargarProductoNombre(nombre){
-        let params = {nombre: nombre};
+        let params = {nombre: nombre,nivel:"1"};
         let url = "source/httprequest/producto/GetProductoNombre.php";
         let success = (response)=>{
             let producto = response;
             confirmar('Producto repetido','El producto '+nombre+
-                    " esta asociado al codigo " + producto.producto_id + ", ¿ desea editar el producto "+producto.producto_id+" ?",
+                    " esta asociado al codigo " + producto.producto_codigo + ", ¿ desea editar el producto "+producto.producto_id+" ?",
             ()=>{
-                abrirModificar(producto.producto_id);
+                abrirModificar(producto.producto_codigo);
                 return;
             },
             ()=>{
@@ -282,4 +422,73 @@
     function ocultar(){
         $("#detalle_producto").css('visibility','hidden');
         $("#detalle_producto").hide();
+    }
+    
+    function eliminarInsumoProducto(id){
+        confirmar('Eliminar insumo','Esta seguro que desea eliminar este insumo ?',
+            ()=>{
+                $("#tr_"+id).remove();
+                let insumo = id;
+                let producto = productoAux;
+                let params = {insumo: insumo,producto:producto};
+                let url = "source/httprequest/insumo_producto/DelInsumoProducto.php";
+                let success = (response)=>{
+                    verComposicion(productoAux);
+                    alertify.success('Insumo eliminado');
+
+                };
+                postRequest(url,params,success); 
+            },
+            ()=>{
+                return;
+            });
+    }
+    
+    function verInsumo(){
+        let insumo = $("#nombreInsumo").val();
+        let params = {id:insumo};
+        let url = "source/httprequest/insumo_producto/GetInsumo.php";
+        let success = (response)=>{
+            insumoAux = response.codigo;
+            //$("#nombreInsumo").val(response.nombre);
+            $("#descripcionInsumo").val(response.descripcion);
+            var precio = aplicarLeyRedondeo(parseInt(response.precio) + parseInt(response.precioIva));
+            $("#costoInsumo").val(precio);
+            $("#tipoInsumo").val(response.tipo);
+                    
+            if(response.tipo === '0'){
+                $("#cantidadInsumo").val("1");
+                $("#cantidadInsumo").attr("step","1");
+            } else{
+                $("#cantidadInsumo").val("1");
+                $("#cantidadInsumo").attr("step","0.125");
+            }
+        };
+        postRequest(url,params,success); 
+    }
+    
+    function agregarInsumoProducto(){
+        if($("#nombreInsumo").val()==="" || $("#descripcionInsumo").val()==="" || $("#costoInsumo").val()==="" || $("#tipoInsumo").val()===""){
+            alertify.error("Ingrese todos los campos necesarios");
+            return;
+        }
+        let url ='';
+
+        if(insumos_agregados.get($("#nombreInsumo").val())!==undefined){
+            url = "source/httprequest/insumo_producto/ModInsumoProducto.php";
+        } else{
+            url = "source/httprequest/insumo_producto/AddInsumoProducto.php";
+        }
+        let cantidad = $("#cantidadInsumo").val();
+        let params = {insumo:insumoAux,producto:productoAux,cantidad:cantidad};
+        let success = (response)=>{
+            insumos_agregados.set($("#nombreInsumo").val(),$("#nombreInsumo").val());
+            $("#nombreInsumo").val("");
+            $("#descripcionInsumo").val("");
+            $("#costoInsumo").val("");
+            $("#tipoInsumo").val("");
+            console.log(insumos_agregados)
+            verComposicion(productoAux);
+        };
+        postRequest(url,params,success); 
     }

@@ -2,6 +2,10 @@
 include '../../query/UsuarioDao.php';
 include '../../cripto/Cripto.php';
 
+if(date("n") == 9){
+    header("Location: index.php");
+}
+
 header('Content-Type: application/json');
 $cripto = new Cripto();
 $respuesta = '0';

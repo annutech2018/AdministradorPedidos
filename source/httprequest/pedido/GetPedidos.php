@@ -84,6 +84,7 @@
                 . "\"pedido_adjunto_pago\":\"".$row['pedido_adjunto_pago']."\","
                 . "\"pedido_adjunto_despacho\":\"".$row['pedido_adjunto_despacho']."\","
                 . "\"pedido_estado\":\"".$row['pedido_estado']."\","
+                . "\"pedido_tipo\":\"".$row['pedido_tipo']."\","
                 . "\"pedido_despachado\":\"".$row['pedido_despachado']."\","
                 . "\"pedido_usuario\":\"".$row['usuario_nombre']."\","
                 . "\"pedido_cliente\":\"".$row['pedido_cliente']."\","

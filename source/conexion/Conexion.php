@@ -5,7 +5,7 @@ class Conexion {
     private $host="127.0.0.1";
     private $user="root";
     private $pass="";
-    private $dbname="pedidos";
+    private $dbname="pedidos_v2";
 
     public $conn;
     

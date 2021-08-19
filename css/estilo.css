@@ -145,6 +145,9 @@ select
    margin-left: 10px;
 }
 
+.sub-cont{
+    width:60%;
+}
 .contenido-central
 {
     width: 96%;
@@ -403,6 +406,24 @@ select
 }
 
 .boton-chico
+{
+    color:white;
+    background-color:#4682b4;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 2px;
+    margin-right: 5px;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    border: solid 1px #0099ff;
+    cursor: pointer;
+    line-height: 15px;
+    float: right;
+}
+
+.boton-chico-img
 {
     color:white;
     background-color:#4682b4;
@@ -1370,4 +1391,75 @@ a{
 
 #enlaceAgregarPedido{
     display: none;
+}
+
+.insumos{
+    width: 100%;
+}
+
+.insumos tr td{
+    text-align: center;
+}
+
+.cont-pedidos-nuevos{
+    width: 99%;
+    height: calc(100% - 190px);
+    background-color: white;
+    margin-top: 52px;
+}
+.cont-indicadores{
+    width: 100%;
+    height: 138px;
+}
+
+.cont-pedidos-nuevos .txt{
+    font-size: 20px;
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+}
+.cont-pedidos-nuevos .txt2{
+    font-size: 15px;
+    display: inline-block;
+    width: 20%;
+    height: 20px;
+    text-align: center;
+}
+.cont-pedidos-nuevos img{
+    cursor:pointer;
+    margin-left: 40px;
+}
+
+.cont-pedido-row{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: #4682b4;
+    color: white;
+}
+
+.cont-pedido-row2{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background-color: whitesmoke;
+}
+
+.input-final{
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+}
+
+.boton-calc{
+    background: silver;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    line-height: 48px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.boton-calc:hover{
+    background: white;
 }

@@ -2,12 +2,13 @@
 include '../../query/LogDao.php';
 header('Content-Type: application/json');
 $codigo = filter_input(INPUT_POST, 'codigo');
+$nivel = filter_input(INPUT_POST, 'nivel');
 $conn = new Conexion();
 $conn->conectar();
 
 
 $cantidad = 0;
-$queryCant = "SELECT SUM(inventario_entrada) - SUM(inventario_salida) AS producto_cantidad FROM tbl_inventario WHERE inventario_producto = '".$codigo."'";
+$queryCant = "SELECT SUM(inventario_entrada) - SUM(inventario_salida) AS producto_cantidad FROM tbl_inventario WHERE inventario_producto = '".$codigo."' AND inventario_tipo = $nivel";
 $resultCant = mysqli_query($conn->conn,$queryCant) or die (mysqli_error($conn->conn)); 
 while($rowCant = mysqli_fetch_array($resultCant)) {
     if($rowCant["producto_cantidad"] != ""){
@@ -20,7 +21,7 @@ if($cantidad > 0){
     return;
 }
 
-$query = "DELETE FROM tbl_producto WHERE producto_id = '$codigo'";
+$query = "DELETE FROM tbl_producto WHERE producto_codigo = '$codigo' AND producto_nivel = $nivel";
 if (mysqli_query($conn->conn,$query)) {
     $id = mysqli_insert_id($conn->conn);
     LogDao::insertarLog("PRODUCTO ELIMINADO CON EL ID: ".$codigo, 15);

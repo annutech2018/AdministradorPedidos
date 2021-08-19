@@ -39,7 +39,7 @@ if(!isset($_SESSION["agente"]))
                 <!--<img src="img/menu.svg" id="btn_menu_img" width="20" height="20" alt="" title="">-->
             </div>
             <div class="img-logo" >
-                <img src="img/icono.png" width="50" height="50" alt="" title="">
+                <img src="img/logo.jpg" width="50" height="50" alt="" title="">
             </div>
             <div class="titulo">
                 Pedidos

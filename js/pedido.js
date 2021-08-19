@@ -6,6 +6,7 @@ var totalTabla = 0;
 var tipo = 'agregar';
 var ID_PEDIDO = 0;
 var indexAgregado = 0;
+var input_sel;
 
 $(document).ready(function(){
     $('#detalle_venta').hide();
@@ -245,6 +246,14 @@ $(document).ready(function(){
                 if(venta.pedido_id_aux !== '0'){
                     id = venta.pedido_id_aux + '('+id+')';
                 }
+                var tipo = '';
+                if(venta.pedido_tipo === '0'){
+                    tipo = 'NORMAL';
+                } else if(venta.pedido_tipo === '1'){
+                    tipo = 'RAPPI';
+                } else if(venta.pedido_tipo === '2'){
+                    tipo = 'PEDIDOS YA';
+                }
                 contenido += "<td>"+id+"</td>\n\
                               <td>"+venta.pedido_fecha+"</td>\n\
                               <td>"+select+"</td>\n\
@@ -252,7 +261,7 @@ $(document).ready(function(){
                               <td>"+venta.pedido_usuario+"</td>\n\
                               <td>"+venta.pedido_cliente_nombre+"</td>\n\
                               <td>"+venta.pedido_cliente_telefono+"</td>\n\
-                              <td>"+venta.pedido_despachado+"</td>\n\
+                              <td>"+tipo+"</td>\n\
                               <td><a href='javascript:void(0)' onClick='verDetalle("+venta.pedido_id+")' ><img alt='Ver detalle' title='Ver detalle' width='20' height='20' src='img/flecha.png'><a/></td>";                                
          
                             if(TIPO_USUARIO === '0' || TIPO_USUARIO === '2'){
@@ -388,10 +397,10 @@ $(document).ready(function(){
                     continue;
                 }
                 let precio = Math.round(parseFloat(pedido.producto_precio) + parseFloat(pedido.producto_precio_iva));
-                contenido += "<tr id='tr"+i+"'><td><input class=\"sin-borde\" type=\"text\" id=\"idAdd"+i+"\" onblur=\"cargarProductos($(this).val(),"+i+")\" value=\""+pedido.producto_id+"\"></td>\n\
-                              <td><input class=\"sin-borde\" type=\"text\" id=\"nombreAdd"+i+"\" value=\""+pedido.producto_nombre+"\"></td>\n\
-                              <td><input class=\"sin-borde\" type=\"text\" id=\"precioAdd"+i+"\"  oninput=\"cambiarTotal()\" onblur=\"validar($(this))\" value=\""+precio+"\"></td>\n\
-                              <td><input class=\"sin-borde\" type=\"text\" min=\"1\" id=\"cantidadAdd"+i+"\" oninput=\"cambiarTotal()\" onblur=\"validar($(this))\" value=\""+Math.round(pedido.detalle_cantidad)+"\"></td>\n\
+                contenido += "<tr id='tr"+i+"'><td><input class=\"sin-borde\"  onfocus=\"setInput($(this),false)\" type=\"text\" id=\"idAdd"+i+"\" onblur=\"cargarProductos($(this).val(),"+i+")\" value=\""+pedido.producto_id+"\"></td>\n\
+                              <td><input class=\"sin-borde\" type=\"text\" onfocus=\"setInput($(this))\" id=\"nombreAdd"+i+"\" value=\""+pedido.producto_nombre+"\"></td>\n\
+                              <td><input class=\"sin-borde\" type=\"text\" onfocus=\"setInput($(this),false)\" id=\"precioAdd"+i+"\"  oninput=\"cambiarTotal()\" onblur=\"validar($(this))\" value=\""+precio+"\"></td>\n\
+                              <td><input class=\"sin-borde\" type=\"text\" onfocus=\"setInput($(this),false)\" min=\"1\" id=\"cantidadAdd"+i+"\" oninput=\"cambiarTotal()\" onblur=\"validar($(this))\" value=\""+Math.round(pedido.detalle_cantidad)+"\"></td>\n\
                               <td><input class=\"sin-borde\" type=\"text\" id=\"totalAdd"+i+"\" value=\""+(precio*pedido.detalle_cantidad)+"\" readonly></td>\n\
                               <td><a href='javascript:void(0)' onclick='borrarItem("+i+")'><img src='img/cerrar.png' width='25' height='25' alt='Eliminar item' title='Eliminar item'></a></td></tr>";
                 totalTabla += Math.round(precio * Math.round(pedido.detalle_cantidad));
@@ -562,13 +571,15 @@ $(document).ready(function(){
     
     function agregarProducto(){
         var index = $("#detalle_productos tbody tr").length;
-        var contenido = "<tr id='tr"+index+"'><td><input class=\"sin-borde\" type=\"text\" id=\"idAdd"+index+"\" onkeydown=\"cargarProductosEnter(event,$(this).val(),"+index+")\" onblur=\"cargarProductos($(this).val(),"+index+")\"></td>"+                        
-                        "<td><input class=\"sin-borde\" type=\"text\" id=\"nombreAdd"+index+"\"></td>"+
-                        "<td><input class=\"sin-borde\" type=\"text\" id=\"precioAdd"+index+"\" oninput=\"cambiarTotal()\" onblur=\"validar($(this))\"></td>"+
-                        "<td><input class=\"sin-borde\" type=\"text\" min=\"1\" value='1' id=\"cantidadAdd"+index+"\" oninput=\"cambiarTotal()\" onblur=\"validar($(this))\" ></td>"+
+        var contenido = "<tr id='tr"+index+"'><td><input onfocus=\"setInput($(this),false)\" class=\"sin-borde\" type=\"text\" id=\"idAdd"+index+"\" onkeydown=\"cargarProductosEnter(event,$(this).val(),"+index+")\" onblur=\"cargarProductos($(this).val(),"+index+")\"></td>"+                        
+                        "<td><input class=\"sin-borde\" onfocus=\"setInput($(this))\" type=\"text\" id=\"nombreAdd"+index+"\"></td>"+
+                        "<td><input class=\"sin-borde\" onfocus=\"setInput($(this),false)\" type=\"text\" id=\"precioAdd"+index+"\" oninput=\"cambiarTotal()\" onblur=\"validar($(this))\"></td>"+
+                        "<td><input class=\"sin-borde\" onfocus=\"setInput($(this),false)\" type=\"text\" min=\"1\" value='1' id=\"cantidadAdd"+index+"\" oninput=\"cambiarTotal()\" onblur=\"validar($(this))\" ></td>"+
                         "<td><input class=\"sin-borde\" type=\"text\" id=\"totalAdd"+index+"\" readonly></td>"+
                         "<td><a href='javascript:void(0)' onclick='borrarItem("+index+")'><img src='img/cerrar.png' width='25' height='25' alt='Eliminar item' title='Eliminar item'></a></td></tr>";
         $("#detalle_productos tbody").append(contenido);
+        $("#idAdd"+index+"").focus();
+        input_sel = $("#idAdd"+index+"");
         indexAgregado = index;
     }
     
@@ -897,4 +908,45 @@ $(document).ready(function(){
             alertify.success("Correo enviado a "+mail);
         }
         });
+    }
+
+
+    function calcular(data){
+        if(input_sel === undefined){
+            return;
+        }
+        if(input_sel.val()==='0'){
+            input_sel.val('');
+        }
+        input_sel.val(input_sel.val()+data);
+        input_sel.focus();
+        cambiarTotal();
+    }
+
+    function vaciar(){
+        if(input_sel === undefined){
+            return;
+        }
+        input_sel.val('0');
+        cambiarTotal();
+    }
+
+    function borrar(){
+        if(input_sel === undefined){
+            return;
+        }
+        if( input_sel.val().length > 1){
+            let data = input_sel.val().substr(0, input_sel.val().length - 1);
+            input_sel.val(data);
+        } else{
+            input_sel.val(0);
+        }
+        cambiarTotal();
+    }
+
+    function setInput(obj,focus = true){
+        input_sel = obj;
+        if(focus){
+            //input_sel.focus();
+        }
     }

@@ -59,6 +59,17 @@
     if($_SESSION['tipo'] == '0')
     {
 ?>
+<div class="opcion-menu" id="insumo" onclick="cambiarModulo('insumo')">
+    <div class="cont-img-menu">
+        <img class="img-menu" src="img/insumo.png">
+    </div>
+    <div class="contenido-menu">
+        Insumos
+    </div>
+    <div class="tooltip" id="tooltip_insumo">
+        Insumos
+    </div>
+</div>
 <div class="opcion-menu" id="producto" onclick="cambiarModulo('producto')">
     <div class="cont-img-menu">
         <img class="img-menu" src="img/producto.png">

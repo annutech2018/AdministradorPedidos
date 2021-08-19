@@ -13,12 +13,12 @@
         <div>
             <input type="text" id="nro_tel">
         </div>
-        <div>
+<!--        <div>
             Usuario Instagram
-        </div>
-        <div>
+        </div>-->
+<!--        <div>
             <input type="text" id="user_ig">
-        </div>
+        </div>-->
         <div>
             Fecha desde
         </div>
@@ -99,7 +99,7 @@
                 <th>VENDEDOR</th>
                 <th>CLIENTE</th>
                 <th>TELÉFONO</th>
-                <th>DESPACHADO POR</th>
+                <th>TIPO</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -113,7 +113,7 @@
     </table>
 </div>
 
-<div id="detalle_venta" class="detalle" style="z-index:10">
+<div id="detalle_venta" class="detalle" style="z-index:10;height:512px">
     <img src="img/cancelar.svg" width="30" height="30" class="img-cerrar" onclick="cerrarModal($('#detalle_venta'))">
     <div class="detalle_cliente" id="detalle_cliente">
         <div>Datos Pedido</div>
@@ -192,66 +192,20 @@
                 <input type="text" id="mailDetalle">
             </div>
         </div>
-        <div class="cont-detalle">
+<!--        <div class="cont-detalle">
             <div>
                 Usuario Instagram
             </div>
             <div>
                 <input type="text" id="igDetalle">
             </div>
-        </div>
+        </div>-->
         <div class="cont-detalle" style="width:400px">
             <div>
                 Observaciones
             </div>
             <div>
                 <input type="text" id="observacionDetalle"  style="width:340px" maxlength="100">
-            </div>
-        </div>
-        <div class="cont-detalle">
-            <div>
-                Despachado por
-            </div>
-            <div>
-                <select id="despachado">
-                    <option value="">SELECCIONE</option>
-                    <option value="CHILE EXPRESS">CHILE EXPRESS</option>
-                    <option value="STARKEN">STARKEN</option>
-                    <option value="CORREOS DE CHILE">CORREOS DE CHILE</option>
-                    <option value="DESPACHO INTERNO">DESPACHO INTERNO</option>
-                </select>
-            </div>
-        </div>
-        <div class="cont-detalle">
-            <div>
-                Destino Envío
-            </div>
-            <div>
-                <select id="adicional">
-                    <option value="-1">SELECCIONE</option>
-                    <option value="0">COBRO EN DESTINO</option>
-                    <option value="6200">COLTAUCO</option>
-                    <option value="5200">PAREDONES</option>
-                    <option value="6620">VILCON</option>
-                    <option value="5110">LA ESTRELLA</option>
-                    <option value="6400">LLANQUIHUE</option>
-                    <option value="5200">COIHUECO</option>
-                    <option value="5200">NEGRETE</option>
-                    <option value="5200">SAN JAVIER</option>
-                    <option value="11200">PUERTO CISNE</option>
-                    <option value="11200">AYSEN</option>
-                    <option value="11000">TIERRA DEL FUEGO</option>
-                    <option value="5400">NUEVA IMPERIAL</option>
-                    <option value="5200">CASA BLANCA</option>
-                    <option value="5110">DANIHUE</option>
-                    <option value="5600">ILLAPEL</option>
-                    <option value="6200">DALCAHUE</option>
-                    <option value="5400">FREIRINA</option>
-                    <option value="5600">CHIMBARONGO</option>
-                    <option value="6000">PURRANQUE</option>
-                    <option value="6200">CHONCHI</option>
-                    <option value="5200">COINCO</option>                    
-                </select>
             </div>
         </div>
         <div class="cont-detalle">
@@ -274,8 +228,96 @@
     <div class="detalle_venta">
         <div>Productos</div>
         <a class="boton boton-grande" id="enlaceAddProd" onclick="agregarProducto()">AGREGAR</a>
-        <div class="cont-tabla">
-            <table class="tabla-mail detalle-tabla" id="detalle_productos">
+        <div class="cont-tabla" style="height:220px">
+            <table style="float: left;width:20%;background: white;height: calc(100%);">
+                <tr>
+                    <td colspan="4">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(7)">
+                           7 
+                        </div>
+                        
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(8)">
+                            8
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(9)">
+                            9
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="vaciar()">
+                           C 
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(4)">
+                            4
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(5)">
+                          5  
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(6)">
+                        6
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="borrar()">
+                        B
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(1)">
+                            1
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(2)">
+                            2
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(3)">
+                           3 
+                        </div>
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="boton-calc" onclick="calcular(0)">
+                            0
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular('00')">
+                            00
+                        </div>
+                    </td>
+                    <td>
+                        <div class="boton-calc" onclick="calcular('000')">
+                            000
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="tabla-mail detalle-tabla" id="detalle_productos" style="width:80%;">
                 <thead>
                     <tr>
                         <th>

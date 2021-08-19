@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +29,7 @@
     </head>
     <body>
         <div class="img-login">
-            <img src="img/icono.png" width="128" height="128">
+            <img src="img/logo.jpg" width="128" height="128">
         </div>
         <div class="login">
             <div class="contenedor-login">
