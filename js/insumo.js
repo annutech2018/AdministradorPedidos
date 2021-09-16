@@ -162,10 +162,10 @@
             alertify.error("Quitar stock debe ser numérico");
             return;
         }
-        if (parseInt(precioCosto) >= parseInt(precioVenta)){
-            alertify.error("El precio de costo no puede ser igual o mayor al precio de venta");
-            return;
-        }
+//        if (parseInt(precioCosto) >= parseInt(precioVenta)){
+//            alertify.error("El precio de costo no puede ser igual o mayor al precio de venta");
+//            return;
+//        }
         if (parseInt(addStock) > 100000){
             alertify.error("Agregar stock debe ser menor o igual a 100000");
             $("#addStock").val("0");

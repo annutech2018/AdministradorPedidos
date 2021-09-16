@@ -235,6 +235,8 @@ $(document).ready(function(){
                     opciones = "<option value='3'>ENTREGADO</option>"+opcionAnulado;
                 } else if(estAux === '4'){
                     opciones = opcionAnulado;
+                }else if(estAux === '5'){
+                    opciones = "<option value='5'>PENDIENTE</option>";
                 }
                
                 

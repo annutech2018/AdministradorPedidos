@@ -225,3 +225,5 @@
         $("#detalle_cliente").css('visibility','hidden');
         $("#detalle_cliente").hide();
     }
+    
+    

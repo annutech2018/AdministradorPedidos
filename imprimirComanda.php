@@ -33,11 +33,12 @@ try {
     echo $exc->getTraceAsString();
 }
 
+$largo = count($productos);
 
 $texto = $id;
 $tipo = $generador::TYPE_EAN_13;
 file_put_contents('image.png', $imagen = $generador->getBarcode($texto, $tipo));
-$pdf = new FPDF('L','mm',[100,100]);
+$pdf = new FPDF('L','mm',[35+(3*$largo)+30,70]);
 $pdf->AddPage();
 $pdf->SetFont('Arial','',8);
 $largo = 13 - strlen($texto);
@@ -51,49 +52,25 @@ for($j=0;$j<strlen($id);$j++){
 }
 $x = 5;
 
+$pdf->SetFont('Arial','B',8);
 $pdf->Text($x,5, 'Dimetro food');
-$pdf->Text($x,8, utf8_decode($nombre));
-$pdf->Text($x,11, utf8_decode($direccion));
-$pdf->Text($x,14, utf8_decode($comuna));
-$pdf->Text($x,17, $telefono);
-$pdf->Text($x,22, "Productos: ");
-$y = 17;
+$pdf->Text($x,8, "-----------------------------");
+$pdf->Text($x,11, "Datos cliente");
+$pdf->SetFont('Arial','',8);
+$pdf->Text($x,17, "Nombre: ".utf8_decode($nombre));
+$pdf->Text($x,20, utf8_decode("Dirección: ".$direccion));
+$pdf->Text($x,23, "Comuna: ".utf8_decode($comuna));
+$pdf->Text($x,26, utf8_decode("Teléfono: ".$telefono));
+$pdf->Text($x,32, "Productos: ");
+$y = 35;
 
-if(count($productos) == 1){
-    $data = explode("%",$productos[0]);
+for($i = 0; $i < count($productos); $i++){
+    $data = explode("%",$productos[$i]);
     $pdf->Text($x,$y, "$data[0]: $data[1]");    
-} else if(count($productos) == 2){
-    $data = explode("%",$productos[0]);
-    $pdf->Text($x,$y, "$data[0]: $data[1]");   
-    $data2 = explode("%",$productos[1]);
-    $pdf->Text($x,$y+3, "$data2[0]: $data2[1]");   
-} else if(count($productos) == 3){
-    $data = explode("%",$productos[0]);
-    $pdf->Text($x,$y, "$data[0]: $data[1]");  
-    $data2 = explode("%",$productos[1]);
-    $pdf->Text($x,$y+3, "$data2[0]: $data2[1]"); 
-    $data3 = explode("%",$productos[2]);
-    $pdf->Text($x,$y+6, "$data3[0]: $data3[1]"); 
-} else if(count($productos) >= 4){
-    $data = explode("%",$productos[0]);
-    $pdf->Text($x,$y, "$data[0]: $data[1]");  
-    $data2 = explode("%",$productos[1]);
-    $pdf->Text($x,$y+3, "$data2[0]: $data2[1]"); 
-    $data3 = explode("%",$productos[2]);
-    $pdf->Text($x,$y+6, "$data3[0]: $data3[1]"); 
-    $x1 = 32;
-    $y1 = 3;
-    $pdf->AddPage();
-    $pdf->Text(5,2, $codigoAux);  
-    $pdf->Image('image.png' , 5 ,3, 25 ,28,'PNG', '');
-    for($i = 3;$i < count($productos);$i++){
-        $y1 += 3;
-        $data = explode("%",$productos[$i]);
-        $pdf->Text($x1,$y1, "$data[0]: $data[1]");
-    }
+    $y = $y + 3;
 }
 
-$pdf->Text(5,79, $codigoAux);    
-$pdf->Image('image.png' , 5 ,80, 25 ,18,'PNG', '');
+$pdf->Text(5,$y+5, $codigoAux);    
+$pdf->Image('image.png' , 5 ,$y+7, 25 ,18,'PNG', '');
 
 $pdf->Output();

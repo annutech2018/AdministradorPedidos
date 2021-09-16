@@ -26,11 +26,11 @@
     <table id="tabla_prod" class="tabla-mail">
         <thead>
             <tr>
-                <th>CÓDIGO</th>
+                <th>C&Oacute;DIGO</th>
                 <th>NOMBRE</th>
-                <th>DESCRIPCIÓN</th>
+                <th>DESCRIPC&Oacute;N</th>
                 <th>PRECIO COSTO</th>
-                <th>PRECIO VENTA</th>
+                <!--<th>PRECIO VENTA</th>-->
                 <th>EXISTENCIA</th>
                 <th></th>
                 <th></th>
@@ -53,7 +53,7 @@
         <div>Datos producto</div>
         <div class="cont-detalle">
             <div>
-                Codigo
+                C&oacute;digo
             </div>
             <div>
                 <input type="text" id="codigo" >
@@ -69,7 +69,7 @@
         </div>
         <div class="cont-detalle" style='width: 350px;' >
             <div>
-                Descripción
+                Descripci&oacute;n
             </div>
             <div>
                 <input type="text" id="descripcion"  style='width: 300px;'>

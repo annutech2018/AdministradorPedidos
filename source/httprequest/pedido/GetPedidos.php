@@ -62,7 +62,7 @@
         }
         $query = "SELECT * FROM tbl_pedido JOIN tbl_detalle ON pedido_id = detalle_pedido"
                 . " LEFT JOIN tbl_usuario ON pedido_usuario = usuario_id "
-                . " WHERE pedido_fecha BETWEEN '$desde' AND '$hasta' "
+                . " WHERE pedido_fecha BETWEEN '$desde' AND '$hasta' AND pedido_estado != 5 "
                 . "".$qryId.$qryEstado.$qryUser.$qryTel.$qryIg.$qryClien.$qryDespacho."  "
                 . "GROUP BY pedido_id ORDER BY pedido_id DESC LIMIT 300";
         $conn->conectar();

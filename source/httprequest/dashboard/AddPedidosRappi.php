@@ -41,9 +41,9 @@ if(isset($json["message"])){
     $url = "https://rests-integrations-dev.auth0.com/oauth/token";
 
     curl_setopt($handle, CURLOPT_URL, $url);
-    $payload = json_encode( array( "client_id"=> "FH0nEEE2hDR1Vmukhv7P89oX2SfmXbEm",
-                                    "client_secret"=> "t3YENLvvKIqXsNBcsJPA7iURArrlBVX0_LVGUVV7_ZOWhAoQGksoe058_RtIO-_o",
-                                    "audience"=>"https://int-public-api-v2/api",
+    $payload = json_encode( array( "client_id"=> "Uy1M32XTRFendX6WJVKxbMyioj8WcrFm",
+                                    "client_secret"=> "BojZUSsRle_I3O7D8RUzJeGzxmQTmN2AuW8YgI6N2AlkFXp43v0VNCl5jlbZq7w5",
+                                    "audience"=>"https://services.rappi.cl/api/v2/restaurants-integrations-public-api",
                                     "grant_type"=>"client_credentials") );
     curl_setopt( $handle, CURLOPT_POSTFIELDS, $payload );
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);

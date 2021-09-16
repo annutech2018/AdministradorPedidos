@@ -49,8 +49,8 @@
             }
                 
             echo "{\"producto_codigo\":\"".$row['producto_codigo']."\","
-                . "\"producto_nombre\":\"".utf8_decode($row['producto_nombre'])."\","
-                . "\"producto_descripcion\":\"".utf8_decode($row['producto_descripcion'])."\","
+                . "\"producto_nombre\":\"".($row['producto_nombre'])."\","
+                . "\"producto_descripcion\":\"".($row['producto_descripcion'])."\","
                 . "\"producto_coste\":\"".$row['producto_coste']."\","
                 . "\"producto_coste_iva\":\"".$row['producto_coste_iva']."\","
                 . "\"producto_precio\":\"".$row['producto_precio']."\","
